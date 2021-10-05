@@ -13,17 +13,20 @@ import { yupResolver } from "@hookform/resolvers";
 import { AddIcon, CopyIcon, DeleteIcon, HamburgerIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 const ExamForm = () => {
-  const [activeQ, setAciveQ] = useState();
+  const [secions, setSections] = useState(1);
 
   const { register, handleSubmit, getValues, setValue, trigger, reset, errors, watch } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const watchNumberOfSections = watch("numberOfSections");
   const watchNumberOfQuestions = watch("sections.questions");
 
   function sections() {
-    return [...Array(parseInt(watchNumberOfSections || 1)).keys()];
+    return [...Array(parseInt(secions)).keys()];
+  }
+
+  function addNewSection() {
+    setSections(secions + 1);
   }
 
   function questions() {
@@ -154,7 +157,7 @@ const ExamForm = () => {
                     <AddIcon onClick={addNewQuestion} />
                     <CopyIcon />
                     <DeleteIcon />
-                    <HamburgerIcon />
+                    <HamburgerIcon onClick={addNewSection} />
                   </Stack>
 
                   <Flex>
